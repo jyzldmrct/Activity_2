@@ -6,7 +6,7 @@ enum class Action {
     ATTACK, DEFEND, HEAL
 }
 
-class Character(val name: String, var health: Int) {
+class Character(val name: String, var health: Int, val maxHealth: Int) {
 
     private var defendMode = false
 
@@ -16,6 +16,9 @@ class Character(val name: String, var health: Int) {
     private val healRange = 10..20
 
     fun performAction(action: Action, target: Character): String {
+        if (!isAlive() || !target.isAlive()) {
+            return "Game Over!"
+        }
         return when (action) {
             Action.ATTACK -> attack(target)
             Action.DEFEND -> defend()
@@ -24,10 +27,12 @@ class Character(val name: String, var health: Int) {
     }
 
     fun performRandomAction(target: Character): String {
+        if (!isAlive() || !target.isAlive()) {
+            return "Game Over!"
+        }
         val randomAction = actions.random()
         return performAction(randomAction, target)
     }
-
     private fun attack(target: Character): String {
         if (target.defendMode) {
             target.defendMode = false
@@ -45,12 +50,18 @@ class Character(val name: String, var health: Int) {
     }
 
     private fun heal(): String {
+        if (health >= maxHealth) {
+            return "Health is already full!"
+        }
+
         val healAmount = healRange.random()
-        health += healAmount
+        health = (health + healAmount).coerceAtMost(maxHealth)
         return "$name healed for $healAmount health!"
     }
 
     fun isAlive(): Boolean {
         return health > 0
     }
+
+
 }

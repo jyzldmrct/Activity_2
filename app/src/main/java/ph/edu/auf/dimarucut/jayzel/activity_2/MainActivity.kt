@@ -17,8 +17,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        player = Character("Player", 100)
-        enemy = Character("Enemy", 100)
+        val maxHealth = 100
+        player = Character("Player", 100, maxHealth)
+        enemy = Character("Enemy", 100, maxHealth)
 
         actionText = findViewById(R.id.actionText)
         playerHealth = findViewById(R.id.playerHealth)
@@ -27,6 +28,9 @@ class MainActivity : AppCompatActivity() {
         val attackButton: ImageButton = findViewById(R.id.attackButton)
         val defendButton: ImageButton = findViewById(R.id.defendButton)
         val healButton: ImageButton = findViewById(R.id.healButton)
+
+        actionText.text = getString(R.string.rpg_turn_based_game)
+        actionText.textSize = 50f
 
         updateUI()
 
@@ -43,20 +47,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun takeTurn(action: Action) {
 
+    private fun takeTurn(action: Action) {
         val playerAction = player.performAction(action, enemy)
         actionText.text = playerAction
 
         if (enemy.isAlive()) {
             val enemyAction = enemy.performRandomAction(player)
-            actionText.append("\nEnemy: $enemyAction")
+            actionText.append("\n$enemyAction")
         }
 
         updateUI()
 
+        actionText.textSize = 25f
+
         checkGameOver()
     }
+
 
     private fun updateUI() {
         playerHealth.text = "Player Health: ${player.health}"
@@ -65,9 +72,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkGameOver() {
         if (!player.isAlive()) {
-            actionText.append("\nGame Over! You lose.")
+            actionText.append("You lose.")
         } else if (!enemy.isAlive()) {
-            actionText.append("\nVictory! You win.")
+            actionText.append("\nYou win.")
         }
     }
 }
