@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Activity_2</string>
+    <string name="player_health_100">Player Health: 100</string>
+    <string name="rpg_turn_based_game">RPG Turn Based Game</string>
+    <string name="enemy_health_100">Enemy Health: 100</string>
+    <string name="attack">Attack</string>
+    <string name="defend">Defend</string>
+    <string name="heal">Heal</string>
+</resources>
