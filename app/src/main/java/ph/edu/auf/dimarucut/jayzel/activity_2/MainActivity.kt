@@ -2,8 +2,11 @@ package ph.edu.auf.dimarucut.jayzel.activity_2
 
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +32,20 @@ class MainActivity : AppCompatActivity() {
         val defendButton: ImageButton = findViewById(R.id.defendButton)
         val healButton: ImageButton = findViewById(R.id.healButton)
 
+
+        val playerImage: ImageView = findViewById(R.id.playerImage)
+        Glide.with(this)
+            .load(R.drawable.player)
+            .apply(RequestOptions().override(180, 180))
+            .into(playerImage)
+
+
+        val enemyImage: ImageView = findViewById(R.id.enemyImage)
+        Glide.with(this)
+            .load(R.drawable.enemy)
+            .apply(RequestOptions().override(180, 180))
+            .into(enemyImage)
+
         actionText.text = getString(R.string.rpg_turn_based_game)
         actionText.textSize = 50f
 
@@ -47,7 +64,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun takeTurn(action: Action) {
         val playerAction = player.performAction(action, enemy)
         actionText.text = playerAction
@@ -63,7 +79,6 @@ class MainActivity : AppCompatActivity() {
 
         checkGameOver()
     }
-
 
     private fun updateUI() {
         playerHealth.text = "Player Health: ${player.health}"
